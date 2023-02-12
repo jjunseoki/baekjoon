@@ -8,7 +8,6 @@ string present, target, tmp;
 
 //스위치 누르는 함수
 void Push(int idx) {
-    // i - 1 전구
     if (idx > 0) {
         if (tmp[idx - 1] == '0') {
             tmp[idx - 1] = '1';
@@ -17,20 +16,21 @@ void Push(int idx) {
             tmp[idx - 1] = '0';
         }
     }
-    // i 번째 전구
+    //그외 상황
     if (tmp[idx] == '0') {
         tmp[idx] = '1';
-    }else {
+    }
+    else {
         tmp[idx] = '0';
     }
-    // i + 1 전구
-    if (idx < N-1) {
+    //해당 전구가 N-1번째인지?
+    if (idx < N - 1) {
         if (tmp[idx + 1] == '0') {
             tmp[idx + 1] = '1';
         }
         else {
             tmp[idx + 1] = '0';
-        } 
+        }
     }
 }
 
@@ -42,11 +42,14 @@ void solve(int first) {
     if (first == 0) {
         if (tmp[0] == '0') {
             tmp[0] = '1';
-        }else { 
-            tmp[0] = '0'; }
+        }
+        else {
+            tmp[0] = '0';
+        }
         if (tmp[1] == '0') {
             tmp[1] = '1';
-        }else {
+        }
+        else {
             tmp[1] = '0';
         }
         cnt++;
@@ -64,20 +67,20 @@ void solve(int first) {
 }
 
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-	//입력
-	cin >> N >> present >> target;
+    //입력
+    cin >> N >> present >> target;
     //첫번째 전구를 키고 시작하는 경우
-	solve(0);
+    solve(0);
     //두번째 전구를 키고 시작하는 경우
-	solve(1);
+    solve(1);
     //result값이 새로 갱신되었으면 바로 출력
-	if (result != 987654321)
-		cout << result;
-	// 불가능한 경우에는 -1을 출력한다. 
-	else
-		cout << -1;
+    if (result != 987654321)
+        cout << result;
+    // 불가능한 경우에는 -1을 출력한다. 
+    else
+        cout << -1;
 }
