@@ -1,58 +1,65 @@
-#include <iostream>
-#include<algorithm>
-#include<string>
-#include<vector>
+#include<iostream>
 #include<queue>
+#include<deque>
+#include<string.h>
+#include<math.h>
+#include<cmath>
+#include<stack>
+#include<algorithm>
+#define MAX 100001
 using namespace std;
 
-vector<int> graph[100001];
-bool visited[100001] = {0,};  //
-int result[100001] = {0, };
+vector<int> graph[MAX];
+int visited[MAX] = { 0, };
+int result[MAX];
 int cnt = 0;
+queue<int> q;
 
-void bfs(int R) {
+void bfs(int r) {
 	queue<int> q;
-	q.push(R); // 시작
-	visited[R] = true; //방문처리
-	cnt++; // 방문 -> +1
-	result[R] = cnt;
-
-	//큐가 빌 때까지 반복	
+	q.push(r); 
+	visited[r] = true; 
+	cnt++; // 처음 방문한 곳 카운트 + 1
+	result[r] = cnt; // 처음으로 방문 cnt == 1
 	while (!q.empty()) {
-		int x = q.front();
+		int inq = q.front(); // 큐에 첫번째 원소 저장
 		q.pop();
-		for (int i = 0; i < graph[x].size(); i++) {
-			int y = graph[x][i];
-			if (!visited[y]){
+		for (int i = 0; i < graph[inq].size(); i++) {
+			int temp = graph[inq][i];
+			if (!visited[temp]) { // 노드에 연결된 노드가 방문하지 않은 곳이면
 				cnt++;
-				q.push(y);
-				visited[y] = true;
-				result[y] = cnt;
+				result[temp] = cnt;
+				q.push(temp);
+				visited[temp] = true;
 			}
 		}
 	}
 }
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0); cout.tie(0);
+    ios_base :: sync_with_stdio(false); 
+    cin.tie(NULL); 
+    cout.tie(NULL);
 
-	int N, M, R;
-	cin >> N >> M >> R;
-
-	for (int i = 0; i < M; i++) {
-		int num1, num2;
-		cin >> num1 >> num2;
-		graph[num1].emplace_back(num2);
-		graph[num2].emplace_back(num1);
+	//입력
+    int n, m, r;
+	cin >> n >> m >> r;
+	for (int i = 1; i <= m; i++) {
+		int a, b;
+		cin >> a >> b;
+		graph[a].push_back(b); // (1,4) (1,2) (2,3) (2,4) (3,4)
+		graph[b].push_back(a); // (4,1) (2,1) (3,2) (4,2) (4,3)	
 	}
-	for (int i = 1; i <= N; i++) {
+
+    // 오름차순 방문을 위한 정렬
+	for (int i = 1; i <= n; i++) {
 		sort(graph[i].begin(), graph[i].end());
 	}
-	bfs(R);
+	
+    bfs(r);
 
-	for (int i = 1; i <= N; i++) {
+	for (int i = 1; i <= n; i++) {
 		cout << result[i] << '\n';
 	}
-	return 0;
+    return 0;
 }
